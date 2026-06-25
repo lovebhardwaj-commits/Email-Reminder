@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shiprocket Ads Studio — Email Templates (Redesigned)</title>
+<style>
+/* ── Ads Design System Tokens ── */
+:root {
+  --accent-primary: #6F57E9;
+  --accent-tint-dark: #2A2547;
+  --accent-tint-light: #ECE7FF;
+  --cta-gradient: linear-gradient(135deg, #AF46FD 0%, #D93BC2 50%, #F4349D 100%);
+  --dark-text-primary: #FFFFFF;
+  --dark-text-secondary: #99A1AF;
+  --dark-bg-page: #0A0A14;
+  --dark-bg-card: #13121F;
+  --dark-bg-surface: #1A1926;
+  --dark-bg-input: #0F0F1A;
+  --dark-bg-chip: #1F1E2E;
+  --dark-border-default: #2A2A3E;
+  --dark-border-subtle: #232234;
+  --dark-border-focus: #3F2D6B;
+  --light-text-primary: #140F29;
+  --light-text-secondary: #707080;
+  --light-bg-page: #F6F6FA;
+  --light-bg-card: #FFFFFF;
+  --light-bg-surface: #FFFFFF;
+  --light-bg-input: #F7F7FC;
+  --light-bg-chip: #F1F1F6;
+  --light-border-default: #E5E5EB;
+  --light-border-subtle: #ECECF2;
+  --status-success: #3FAD46;
+  --status-error: #E54545;
+  --status-warn: #F59E0B;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  --font-email: 'Helvetica Neue', Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--dark-bg-page); color: var(--dark-text-primary); min-height: 100vh; }
+
+/* ── Top nav ── */
+.top-nav { position: sticky; top: 0; z-index: 100; background: var(--dark-bg-card); border-bottom: 1px solid var(--dark-border-subtle); padding: 0 32px; display: flex; align-items: center; }
+.nav-brand { font-size: 11px; font-weight: 800; color: var(--accent-primary); letter-spacing: 0.08em; text-transform: uppercase; padding: 18px 24px 18px 0; border-right: 1px solid var(--dark-border-subtle); margin-right: 24px; white-space: nowrap; }
+.nav-tabs { display: flex; flex: 1; }
+.nav-tab { padding: 18px 20px; font-size: 12px; font-weight: 600; color: var(--dark-text-secondary); cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s, background 0.15s; white-space: nowrap; user-select: none; border-radius: 4px 4px 0 0; }
+.nav-tab:hover { color: var(--dark-text-primary); background: rgba(255,255,255,0.03); }
+.nav-tab.active { color: var(--dark-text-primary); border-bottom-color: var(--accent-primary); }
+.nav-tab .tab-badge { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-right: 7px; padding: 2px 6px; border-radius: 4px; background: var(--dark-bg-chip); color: var(--dark-text-secondary); }
+.nav-tab.active .tab-badge { background: var(--accent-primary); color: #fff; }
+.page { display: none; padding: 48px 40px 80px; }
+.page.active { display: block; }
+
+/* ── State header ── */
+.state-header { max-width: 1920px; margin: 0 auto 40px; }
+.state-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-primary); margin-bottom: 8px; }
+.state-title { font-size: 26px; font-weight: 800; color: var(--dark-text-primary); margin-bottom: 6px; }
+.state-desc { font-size: 12px; color: var(--dark-text-secondary); line-height: 1.6; }
+
+/* ── Mode sections ── */
+.mode-section { width: 100%; }
+.mode-label-row { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+.mode-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; }
+.mode-label.dark { background: var(--dark-bg-surface); color: var(--dark-text-secondary); border: 1px solid var(--dark-border-default); }
+.mode-label.light { background: #ECE7FF; color: var(--accent-primary); border: 1px solid #D8CFFF; }
+.mode-rule { flex: 1; height: 1px; background: var(--dark-border-subtle); }
+.variants-sub-row { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 56px; overflow-x: auto; padding-bottom: 8px; }
+
+/* ── Email wrapper ── */
+.email-wrapper { flex: 0 0 580px; width: 580px; }
+.email-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.email-version { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-primary); }
+.email-version.light-ver { color: #8B7FCC; }
+.email-angle { font-size: 10px; color: var(--dark-text-secondary); font-style: italic; }
+
+/* ── Browser chrome ── */
+.browser-chrome { background: #1A1928; border-radius: 10px 10px 0 0; padding: 10px 14px 0; display: flex; align-items: center; gap: 6px; }
+.chrome-dot { width: 10px; height: 10px; border-radius: 50%; }
+.chrome-dot.red { background: #FF5F57; } .chrome-dot.yellow { background: #FEBC2E; } .chrome-dot.green { background: #28C840; }
+.chrome-bar { flex: 1; background: var(--dark-bg-page); border-radius: 4px; height: 22px; margin-left: 8px; display: flex; align-items: center; padding: 0 10px; }
+.chrome-url { font-size: 10px; color: var(--dark-text-secondary); font-family: monospace; }
+.browser-chrome.light { background: #E8E8F0; }
+.browser-chrome.light .chrome-bar { background: #F0F0F6; }
+.browser-chrome.light .chrome-url { color: #999; }
+
+/* ═══ DARK EMAIL SHELL ═══ */
+.email-shell { width: 580px; background: var(--dark-bg-card); border: 1px solid var(--dark-border-default); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; font-family: var(--font-email); }
+.gmail-frame { background: #080717; padding: 18px; }
+.gmail-subject-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.gmail-avatar { width: 36px; height: 36px; background: var(--cta-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: #fff; flex-shrink: 0; }
+.gmail-meta { flex: 1; min-width: 0; }
+.gmail-from { font-size: 13px; font-weight: 600; color: var(--dark-text-primary); margin-bottom: 2px; }
+.gmail-from span { font-weight: 400; color: var(--dark-text-secondary); }
+.gmail-to { font-size: 11px; color: var(--dark-text-secondary); }
+.gmail-time { font-size: 11px; color: var(--dark-text-secondary); white-space: nowrap; }
+.gmail-subject-line { font-size: 13px; font-weight: 700; color: var(--dark-text-primary); margin-bottom: 14px; padding-left: 48px; line-height: 1.4; }
+.email-content { background: var(--dark-bg-card); overflow: hidden; }
+.em-header { background: var(--dark-bg-surface); padding: 20px 28px 18px; border-bottom: 1px solid var(--dark-border-subtle); display: flex; align-items: center; justify-content: space-between; }
+.em-logo-wrap { display: flex; align-items: center; gap: 10px; }
+.em-logo-dot { width: 30px; height: 30px; background: var(--cta-gradient); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #fff; flex-shrink: 0; }
+.em-logo-name { font-size: 13px; font-weight: 800; color: var(--dark-text-primary); }
+.em-logo-ctx { font-size: 10px; color: var(--dark-text-secondary); margin-top: 1px; }
+.em-header-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; background: var(--accent-tint-dark); border: 1px solid var(--dark-border-focus); color: #A594F9; padding: 4px 10px; border-radius: 20px; }
+.em-body { padding: 22px 28px 0; background: var(--dark-bg-card); }
+.em-intro { font-size: 14px; color: var(--dark-text-secondary); line-height: 1.75; margin-bottom: 22px; }
+.em-sec-label { font-size: 9px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #8A8AA8; margin: 20px 0 10px; }
+.em-table { width: 100%; border-collapse: collapse; border-radius: 8px; overflow: hidden; }
+.em-table thead tr { background: var(--dark-bg-surface); }
+.em-table thead th { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8A8AA8; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--dark-border-subtle); }
+.em-table thead th:last-child { text-align: right; }
+.em-table tbody tr { border-bottom: 1px solid var(--dark-border-subtle); }
+.em-table tbody tr:last-child { border-bottom: none; }
+.em-table tbody td { padding: 12px 14px; vertical-align: middle; font-size: 13px; color: var(--dark-text-secondary); }
+.em-table tbody td:last-child { text-align: right; }
+.td-name { font-weight: 700; color: var(--dark-text-primary); font-size: 13px; display: block; }
+.td-sub { font-size: 10px; color: #7A7A98; display: block; margin-top: 2px; }
+.val-win { font-weight: 800; color: var(--status-success); font-size: 14px; }
+.val-lose { font-weight: 800; color: var(--status-error); font-size: 14px; }
+.val-neutral { font-weight: 700; color: #A594F9; font-size: 14px; }
+.val-warn { font-weight: 700; color: var(--status-warn); font-size: 14px; }
+.em-insight { background: var(--accent-tint-dark); border: 1px solid var(--dark-border-focus); border-left: 3px solid var(--accent-primary); border-radius: 8px; padding: 14px 16px; margin: 18px 0 4px; }
+.em-insight-label { font-size: 9px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #A594F9; margin-bottom: 6px; }
+.em-insight-text { font-size: 13px; color: var(--dark-text-secondary); line-height: 1.65; }
+.em-insight-text strong { color: var(--dark-text-primary); }
+.em-comp-cards { display: flex; gap: 10px; margin-bottom: 4px; }
+.em-comp-card { flex: 1; border: 1px solid var(--dark-border-subtle); border-radius: 8px; overflow: hidden; background: var(--dark-bg-surface); }
+.em-comp-thumb { height: 90px; background: linear-gradient(135deg, #1A1530 0%, #251E45 100%); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #7A7AA0; position: relative; font-style: italic; }
+.em-comp-format { position: absolute; top: 6px; right: 6px; background: var(--accent-primary); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+.em-comp-info { padding: 10px; }
+.em-comp-hook { font-size: 11px; font-weight: 700; color: var(--dark-text-primary); line-height: 1.4; margin-bottom: 3px; }
+.em-comp-meta { font-size: 10px; color: var(--dark-text-secondary); }
+.em-brand-spotlight { display: flex; align-items: center; gap: 14px; background: var(--dark-bg-surface); border: 1px solid var(--dark-border-subtle); border-radius: 10px; padding: 14px 16px; margin-bottom: 4px; }
+.em-brand-logo { width: 40px; height: 40px; background: var(--accent-tint-dark); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #A594F9; flex-shrink: 0; }
+.em-brand-info { flex: 1; min-width: 0; }
+.em-brand-name { font-size: 14px; font-weight: 800; color: var(--dark-text-primary); margin-bottom: 2px; }
+.em-brand-meta { font-size: 11px; color: var(--dark-text-secondary); }
+.em-brand-stat { text-align: right; flex-shrink: 0; }
+.em-brand-count { font-size: 22px; font-weight: 900; color: var(--accent-primary); line-height: 1; }
+.em-brand-count-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dark-text-secondary); margin-top: 2px; }
+.em-thumb-row { display: flex; gap: 8px; margin-bottom: 4px; }
+.em-thumb-item { flex: 1; border: 1px solid var(--dark-border-subtle); border-radius: 8px; overflow: hidden; }
+.em-thumb-img { width: 100%; height: 100px; background: linear-gradient(135deg, #1A1530 0%, #251E45 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; position: relative; }
+.em-thumb-icon { font-size: 18px; opacity: 0.65; }
+.em-thumb-img-label { font-size: 9px; color: #8A8AB8; font-style: italic; }
+.em-thumb-format-badge { position: absolute; top: 6px; right: 6px; background: var(--accent-primary); color: #fff; font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.em-thumb-footer { padding: 8px; background: var(--dark-bg-surface); }
+.em-thumb-hook { font-size: 10px; font-weight: 600; color: var(--dark-text-primary); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.em-cta-wrap { padding: 28px 28px 24px; text-align: center; background: var(--dark-bg-card); }
+.em-cta-btn { display: inline-block; background: var(--cta-gradient); color: #fff; font-size: 14px; font-weight: 700; padding: 15px 36px; border-radius: 10px; text-decoration: none; letter-spacing: 0.02em; box-shadow: 0 4px 24px rgba(111,87,233,0.35); transition: opacity 0.15s, box-shadow 0.15s; }
+.em-cta-btn:hover { opacity: 0.9; box-shadow: 0 6px 32px rgba(111,87,233,0.5); }
+.em-cta-note { font-size: 11px; color: var(--dark-text-secondary); margin-top: 10px; }
+.em-divider { height: 1px; background: var(--dark-border-subtle); margin: 0 28px; }
+.em-footer { background: var(--dark-bg-surface); padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--dark-border-subtle); }
+.em-footer-sig strong { font-size: 13px; font-weight: 700; color: var(--dark-text-primary); display: block; }
+.em-footer-sig span { font-size: 11px; color: var(--dark-text-secondary); }
+.em-footer-links { font-size: 10px; color: #6B6B88; }
+
+/* ═══ LIGHT OVERRIDES ═══ */
+.email-shell.light { background: var(--light-bg-card); border: 1px solid var(--light-border-default); }
+.email-shell.light .gmail-frame { background: var(--light-bg-page); }
+.email-shell.light .gmail-from { color: var(--light-text-primary); }
+.email-shell.light .gmail-from span { color: var(--light-text-secondary); }
+.email-shell.light .gmail-to,
+.email-shell.light .gmail-time { color: var(--light-text-secondary); }
+.email-shell.light .gmail-subject-line { color: var(--light-text-primary); }
+.email-shell.light .email-content { background: var(--light-bg-card); }
+.email-shell.light .em-header { background: var(--light-bg-card); border-bottom: 1px solid var(--light-border-subtle); }
+.email-shell.light .em-logo-name { color: var(--light-text-primary); }
+.email-shell.light .em-logo-ctx { color: var(--light-text-secondary); }
+.email-shell.light .em-header-badge { background: var(--accent-tint-light); border: 1px solid #D8CFFF; color: var(--accent-primary); }
+.email-shell.light .em-body { background: var(--light-bg-card); }
+.email-shell.light .em-intro { color: var(--light-text-secondary); }
+.email-shell.light .em-sec-label { color: #8080A0; }
+.email-shell.light .em-table thead tr { background: var(--light-bg-input); }
+.email-shell.light .em-table thead th { color: #8080A0; border-bottom-color: var(--light-border-subtle); }
+.email-shell.light .em-table tbody tr { border-bottom-color: var(--light-border-subtle); }
+.email-shell.light .em-table tbody td { color: var(--light-text-secondary); }
+.email-shell.light .td-name { color: var(--light-text-primary); }
+.email-shell.light .td-sub { color: #9090B0; }
+.email-shell.light .val-neutral { color: var(--accent-primary); }
+.email-shell.light .em-insight { background: var(--accent-tint-light); border: 1px solid #D8CFFF; border-left: 3px solid var(--accent-primary); }
+.email-shell.light .em-insight-label { color: var(--accent-primary); }
+.email-shell.light .em-insight-text { color: var(--light-text-secondary); }
+.email-shell.light .em-insight-text strong { color: var(--light-text-primary); }
+.email-shell.light .em-comp-card { background: var(--light-bg-surface); border-color: var(--light-border-subtle); }
+.email-shell.light .em-comp-thumb { background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%); color: #C4B5FD; }
+.email-shell.light .em-comp-format { background: var(--accent-primary); }
+.email-shell.light .em-comp-hook { color: var(--light-text-primary); }
+.email-shell.light .em-comp-meta { color: var(--light-text-secondary); }
+.email-shell.light .em-brand-spotlight { background: var(--light-bg-input); border-color: var(--light-border-subtle); }
+.email-shell.light .em-brand-logo { background: var(--accent-tint-light); color: var(--accent-primary); }
+.email-shell.light .em-brand-name { color: var(--light-text-primary); }
+.email-shell.light .em-brand-meta { color: var(--light-text-secondary); }
+.email-shell.light .em-brand-count { color: var(--accent-primary); }
+.email-shell.light .em-brand-count-label { color: var(--light-text-secondary); }
+.email-shell.light .em-thumb-item { border-color: var(--light-border-subtle); }
+.email-shell.light .em-thumb-img { background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%); }
+.email-shell.light .em-thumb-img-label { color: #C4B5FD; }
+.email-shell.light .em-thumb-format-badge { background: var(--accent-primary); }
+.email-shell.light .em-thumb-footer { background: var(--light-bg-surface); }
+.email-shell.light .em-thumb-hook { color: var(--light-text-primary); }
+.email-shell.light .em-cta-wrap { background: var(--light-bg-card); }
+.email-shell.light .em-cta-note { color: var(--light-text-secondary); }
+.email-shell.light .em-divider { background: var(--light-border-subtle); }
+.email-shell.light .em-footer { background: var(--light-bg-input); border-top: 1px solid var(--light-border-subtle); }
+.email-shell.light .em-footer-sig strong { color: var(--light-text-primary); }
+.email-shell.light .em-footer-sig span { color: var(--light-text-secondary); }
+.email-shell.light .em-footer-links { color: #9090A8; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-brand">Ads Studio · Email Templates</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('s1', this)"><span class="tab-badge">S1</span> Account Connected</div>
+    <div class="nav-tab" onclick="showPage('s2', this)"><span class="tab-badge">S2</span> Competitors Tracked</div>
+    <div class="nav-tab" onclick="showPage('s3', this)"><span class="tab-badge">S3</span> Domain Mapped</div>
+  </div>
+</nav>
+
+<!-- STATE 1 -->
+<div class="page active" id="page-s1">
+  <div class="state-header">
+    <div class="state-eyebrow">State 1 of 3</div>
+    <div class="state-title">Account Connected</div>
+    <div class="state-desc">Meta API only · Campaign ROAS, spend, revenue, CPP, CTR · ₹500 minimum spend to qualify · No report data used</div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-label-row"><span class="mode-label dark">🌙 Dark Mode</span><div class="mode-rule"></div></div>
+    <div class="variants-sub-row">
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v1.1 — Campaign Split</span><span class="email-angle">Week 1</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">Your top campaign is at {{top_campaign_roas}}x ROAS. Your lowest is at {{bottom_campaign_roas}}x. Here's the split.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Weekly Performance · Last 7 Days</div></div></div><div class="em-header-badge">Weekly Digest</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here's where your Meta budget won and lost this week — straight from your account.</p>
+                <div class="em-sec-label">Campaign Performance · Last 7 Days</div>
+                <table class="em-table"><thead><tr><th>Campaign</th><th>Spend</th><th>Revenue</th><th>ROAS</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">↑ {{top_campaign_name}}</span><span class="td-sub">Top performer</span></td><td style="font-size:12px;">{{top_campaign_spend}}</td><td style="font-size:12px;">{{top_campaign_revenue}}</td><td><span class="val-win">{{top_campaign_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">↓ {{bottom_campaign_name}}</span><span class="td-sub">Lowest return · spend ≥ ₹500</span></td><td style="font-size:12px;">{{bottom_campaign_spend}}</td><td style="font-size:12px;">{{bottom_campaign_revenue}}</td><td><span class="val-lose">{{bottom_campaign_roas}}x</span></td></tr>
+                </tbody></table>
+                <div class="em-sec-label">Account Summary</div>
+                <table class="em-table"><thead><tr><th>Metric</th><th>This Week</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Total Spend</span></td><td><span class="val-neutral">{{total_spend}}</span></td></tr>
+                  <tr><td><span class="td-name">Overall ROAS</span></td><td><span class="val-neutral">{{overall_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">Total Revenue</span></td><td><span class="val-neutral">{{total_revenue}}</span></td></tr>
+                  <tr><td><span class="td-name">Cost Per Purchase</span></td><td><span class="val-neutral">{{overall_cpp}}</span></td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">Where to Act</div><div class="em-insight-text">There's a <strong>{{roas_gap}}x ROAS gap</strong> between your best and worst campaign this week. Log in to see the full breakdown and shift budget toward what's working.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">See Full Campaign Breakdown</a><p class="em-cta-note">Your live account data is ready inside Studio.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v1.2 — Top Ad This Week</span><span class="email-angle">Week 2</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">One of your ads returned {{top_ad_roas}}x ROAS this week at ₹{{top_ad_cpp}} per purchase.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Top Ad · Last 7 Days</div></div></div><div class="em-header-badge">Weekly Digest</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, one ad pulled ahead of everything else in your account this week. Here's what it delivered.</p>
+                <div class="em-sec-label">Your Top Ad · Last 7 Days</div>
+                <table class="em-table"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">ROAS</span></td><td><span class="val-win">{{top_ad_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">Revenue</span></td><td><span class="val-win">{{top_ad_revenue}}</span></td></tr>
+                  <tr><td><span class="td-name">Spend</span></td><td>{{top_ad_spend}}</td></tr>
+                  <tr><td><span class="td-name">Cost Per Purchase</span></td><td>{{top_ad_cpp}}</td></tr>
+                  <tr><td><span class="td-name">CTR</span></td><td>{{top_ad_ctr}}</td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">What This Means</div><div class="em-insight-text">Your top ad is generating <strong>{{top_ad_revenue}}</strong> at <strong>{{top_ad_roas}}x ROAS</strong>. Log in to scale its budget and review the full ad-level breakdown inside Studio.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Review Your Ads in Studio</a><p class="em-cta-note">Your live account data is ready inside Studio.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v1.3 — Spend Efficiency</span><span class="email-angle">Week 3</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">You spent {{total_spend}} last week. Here's exactly what it returned.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Spend Efficiency · Last 7 Days</div></div></div><div class="em-header-badge">Weekly Digest</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, your Meta account spent {{total_spend}} over the last 7 days. Here's a full account of what that budget returned.</p>
+                <div class="em-sec-label">Account-Level Return · Last 7 Days</div>
+                <table class="em-table"><thead><tr><th>Metric</th><th>This Week</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Total Spend</span></td><td><span class="val-neutral">{{total_spend}}</span></td></tr>
+                  <tr><td><span class="td-name">Total Revenue</span></td><td><span class="val-win">{{total_revenue}}</span></td></tr>
+                  <tr><td><span class="td-name">Overall ROAS</span></td><td><span class="val-win">{{overall_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">Cost Per Purchase</span></td><td>{{overall_cpp}}</td></tr>
+                  <tr><td><span class="td-name">Total Purchases</span></td><td>{{total_purchases}}</td></tr>
+                  <tr><td><span class="td-name">CTR</span></td><td>{{overall_ctr}}</td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">The Full Picture</div><div class="em-insight-text">Your account returned <strong>{{total_revenue}}</strong> on <strong>{{total_spend}}</strong> spent — a <strong>{{overall_roas}}x ROAS</strong> overall. Log in to see the campaign-level breakdown.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">See Where to Reallocate Budget</a><p class="em-cta-note">Your live account data is ready inside Studio.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-label-row"><span class="mode-label light">☀️ Light Mode</span><div class="mode-rule"></div></div>
+    <div class="variants-sub-row">
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v1.1 — Campaign Split</span><span class="email-angle">Week 1</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">Your top campaign is at {{top_campaign_roas}}x ROAS. Your lowest is at {{bottom_campaign_roas}}x. Here's the split.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Weekly Performance · Last 7 Days</div></div></div><div class="em-header-badge">Weekly Digest</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here's where your Meta budget won and lost this week — straight from your account.</p>
+                <div class="em-sec-label">Campaign Performance · Last 7 Days</div>
+                <table class="em-table"><thead><tr><th>Campaign</th><th>Spend</th><th>Revenue</th><th>ROAS</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">↑ {{top_campaign_name}}</span><span class="td-sub">Top performer</span></td><td style="font-size:12px;">{{top_campaign_spend}}</td><td style="font-size:12px;">{{top_campaign_revenue}}</td><td><span class="val-win">{{top_campaign_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">↓ {{bottom_campaign_name}}</span><span class="td-sub">Lowest return · spend ≥ ₹500</span></td><td style="font-size:12px;">{{bottom_campaign_spend}}</td><td style="font-size:12px;">{{bottom_campaign_revenue}}</td><td><span class="val-lose">{{bottom_campaign_roas}}x</span></td></tr>
+                </tbody></table>
+                <div class="em-sec-label">Account Summary</div>
+                <table class="em-table"><thead><tr><th>Metric</th><th>This Week</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Total Spend</span></td><td><span class="val-neutral">{{total_spend}}</span></td></tr>
+                  <tr><td><span class="td-name">Overall ROAS</span></td><td><span class="val-neutral">{{overall_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">Total Revenue</span></td><td><span class="val-neutral">{{total_revenue}}</span></td></tr>
+                  <tr><td><span class="td-name">Cost Per Purchase</span></td><td><span class="val-neutral">{{overall_cpp}}</span></td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">Where to Act</div><div class="em-insight-text">There's a <strong>{{roas_gap}}x ROAS gap</strong> between your best and worst campaign this week. Log in to see the full breakdown and shift budget toward what's working.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">See Full Campaign Breakdown</a><p class="em-cta-note">Your live account data is ready inside Studio.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v1.2 — Top Ad This Week</span><span class="email-angle">Week 2</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">One of your ads returned {{top_ad_roas}}x ROAS this week at ₹{{top_ad_cpp}} per purchase.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Top Ad · Last 7 Days</div></div></div><div class="em-header-badge">Weekly Digest</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, one ad pulled ahead of everything else in your account this week. Here's what it delivered.</p>
+                <div class="em-sec-label">Your Top Ad · Last 7 Days</div>
+                <table class="em-table"><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">ROAS</span></td><td><span class="val-win">{{top_ad_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">Revenue</span></td><td><span class="val-win">{{top_ad_revenue}}</span></td></tr>
+                  <tr><td><span class="td-name">Spend</span></td><td>{{top_ad_spend}}</td></tr>
+                  <tr><td><span class="td-name">Cost Per Purchase</span></td><td>{{top_ad_cpp}}</td></tr>
+                  <tr><td><span class="td-name">CTR</span></td><td>{{top_ad_ctr}}</td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">What This Means</div><div class="em-insight-text">Your top ad is generating <strong>{{top_ad_revenue}}</strong> at <strong>{{top_ad_roas}}x ROAS</strong>. Log in to scale its budget and review the full ad-level breakdown inside Studio.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Review Your Ads in Studio</a><p class="em-cta-note">Your live account data is ready inside Studio.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v1.3 — Spend Efficiency</span><span class="email-angle">Week 3</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">You spent {{total_spend}} last week. Here's exactly what it returned.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Spend Efficiency · Last 7 Days</div></div></div><div class="em-header-badge">Weekly Digest</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, your Meta account spent {{total_spend}} over the last 7 days. Here's a full account of what that budget returned.</p>
+                <div class="em-sec-label">Account-Level Return · Last 7 Days</div>
+                <table class="em-table"><thead><tr><th>Metric</th><th>This Week</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Total Spend</span></td><td><span class="val-neutral">{{total_spend}}</span></td></tr>
+                  <tr><td><span class="td-name">Total Revenue</span></td><td><span class="val-win">{{total_revenue}}</span></td></tr>
+                  <tr><td><span class="td-name">Overall ROAS</span></td><td><span class="val-win">{{overall_roas}}x</span></td></tr>
+                  <tr><td><span class="td-name">Cost Per Purchase</span></td><td>{{overall_cpp}}</td></tr>
+                  <tr><td><span class="td-name">Total Purchases</span></td><td>{{total_purchases}}</td></tr>
+                  <tr><td><span class="td-name">CTR</span></td><td>{{overall_ctr}}</td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">The Full Picture</div><div class="em-insight-text">Your account returned <strong>{{total_revenue}}</strong> on <strong>{{total_spend}}</strong> spent — a <strong>{{overall_roas}}x ROAS</strong> overall. Log in to see the campaign-level breakdown.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">See Where to Reallocate Budget</a><p class="em-cta-note">Your live account data is ready inside Studio.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STATE 2 -->
+<div class="page" id="page-s2">
+  <div class="state-header">
+    <div class="state-eyebrow">State 2 of 3</div>
+    <div class="state-title">Competitors Tracked</div>
+    <div class="state-desc">Scrape data only · Ad count and thumbnails are real · Hook / storytelling / visual labels randomised from fixed set</div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-label-row"><span class="mode-label dark">🌙 Dark Mode</span><div class="mode-rule"></div></div>
+    <div class="variants-sub-row">
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v2.1 — What They're Running</span><span class="email-angle">Week 1</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{competitor_name}} pushed {{competitor_ad_count}} ads live this week. Here's what they're running.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Competitor Intelligence · {{competitor_name}}</div></div></div><div class="em-header-badge">Competitor Update</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, we tracked {{competitor_name}}'s Meta activity this week. {{competitor_ad_count}} ads pushed live — here's a look at their recent creatives.</p>
+                <div class="em-sec-label">{{competitor_name}} · Creative Strategy This Week</div>
+                <table class="em-table"><thead><tr><th>Signal</th><th>This Week</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Ads Live</span></td><td><span class="val-warn">{{competitor_ad_count}}</span></td></tr>
+                  <tr><td><span class="td-name">Top Format</span></td><td><span class="val-neutral">{{comp_top_format}}</span></td></tr>
+                  <tr><td><span class="td-name">Leading Hook Style</span></td><td><span class="val-neutral">{{comp_top_hook}}</span></td></tr>
+                  <tr><td><span class="td-name">Storytelling Approach</span></td><td><span class="val-neutral">{{comp_top_story}}</span></td></tr>
+                </tbody></table>
+                <div class="em-sec-label">Their Recent Ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_1_hook}}</div><div class="em-comp-meta">{{comp_ad_1_style}} · {{comp_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_2_hook}}</div><div class="em-comp-meta">{{comp_ad_2_style}} · {{comp_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">The Gap</div><div class="em-insight-text">{{competitor_name}} is consistently running <strong>{{comp_top_format}}</strong> ads with a <strong>{{comp_top_hook}}</strong> approach. Search for them inside Studio to see their full ad library.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Open Competitor Report in Studio</a><p class="em-cta-note">Full ad library and creative intelligence inside.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v2.2 — Their Creative Formula</span><span class="email-angle">Week 2</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{competitor_name}} has a creative formula they keep going back to. Here's what it is.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Creative Intelligence · {{competitor_name}}</div></div></div><div class="em-header-badge">Competitor Update</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, behind {{competitor_name}}'s {{competitor_ad_count}} active ads is a repeatable creative formula.</p>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_1_hook}}</div><div class="em-comp-meta">{{comp_ad_1_style}} · {{comp_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_2_hook}}</div><div class="em-comp-meta">{{comp_ad_2_style}} · {{comp_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-sec-label">Their Repeating Pattern</div>
+                <table class="em-table"><thead><tr><th>Element</th><th>Their Approach</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Visual Style</span></td><td><span class="val-neutral">{{comp_top_visual}}</span></td></tr>
+                  <tr><td><span class="td-name">Sequence Pattern</span></td><td><span class="val-neutral">{{comp_top_sequence}}</span></td></tr>
+                  <tr><td><span class="td-name">Hook Type</span></td><td><span class="val-neutral">{{comp_top_hook}}</span></td></tr>
+                  <tr><td><span class="td-name">Format</span></td><td><span class="val-neutral">{{comp_top_format}}</span></td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">How to Counter</div><div class="em-insight-text">{{competitor_name}} is leaning on <strong>{{comp_top_visual}}</strong> visuals with a <strong>{{comp_top_sequence}}</strong> sequence. Search Studio and use AI Creative to generate your own version.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Generate a Counter Creative</a><p class="em-cta-note">Upload a product photo. Done in minutes.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v2.3 — Volume Trend</span><span class="email-angle">Week 3</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{competitor_name}} scaled from {{comp_last_week_count}} to {{competitor_ad_count}} ads this week.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Volume Trend · {{competitor_name}}</div></div></div><div class="em-header-badge">Competitor Update</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, {{competitor_name}}'s ad volume increased by {{comp_volume_change}} this week.</p>
+                <div class="em-sec-label">Week on Week Activity · {{competitor_name}}</div>
+                <table class="em-table"><thead><tr><th>Period</th><th>Ads Live</th><th>Change</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">This Week</span></td><td><span class="val-lose">{{competitor_ad_count}}</span></td><td><span class="val-lose">↑ {{comp_volume_change}}</span></td></tr>
+                  <tr><td><span class="td-name">Last Week</span></td><td style="font-size:13px;">{{comp_last_week_count}}</td><td style="font-size:12px;">—</td></tr>
+                </tbody></table>
+                <div class="em-sec-label">What They're Scaling</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_1_hook}}</div><div class="em-comp-meta">{{comp_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_2_hook}}</div><div class="em-comp-meta">{{comp_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">What It Signals</div><div class="em-insight-text">A jump from {{comp_last_week_count}} to {{competitor_ad_count}} ads often means a product launch or push into a new audience segment. Search Studio to monitor what formats they're doubling down on.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Track Their Full Ad History</a><p class="em-cta-note">Stay ahead of what your competitors are testing.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-label-row"><span class="mode-label light">☀️ Light Mode</span><div class="mode-rule"></div></div>
+    <div class="variants-sub-row">
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v2.1 — What They're Running</span><span class="email-angle">Week 1</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{competitor_name}} pushed {{competitor_ad_count}} ads live this week. Here's what they're running.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Competitor Intelligence · {{competitor_name}}</div></div></div><div class="em-header-badge">Competitor Update</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, we tracked {{competitor_name}}'s Meta activity this week. {{competitor_ad_count}} ads pushed live — here's a look at their recent creatives.</p>
+                <div class="em-sec-label">{{competitor_name}} · Creative Strategy This Week</div>
+                <table class="em-table"><thead><tr><th>Signal</th><th>This Week</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Ads Live</span></td><td><span class="val-warn">{{competitor_ad_count}}</span></td></tr>
+                  <tr><td><span class="td-name">Top Format</span></td><td><span class="val-neutral">{{comp_top_format}}</span></td></tr>
+                  <tr><td><span class="td-name">Leading Hook Style</span></td><td><span class="val-neutral">{{comp_top_hook}}</span></td></tr>
+                  <tr><td><span class="td-name">Storytelling Approach</span></td><td><span class="val-neutral">{{comp_top_story}}</span></td></tr>
+                </tbody></table>
+                <div class="em-sec-label">Their Recent Ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_1_hook}}</div><div class="em-comp-meta">{{comp_ad_1_style}} · {{comp_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_2_hook}}</div><div class="em-comp-meta">{{comp_ad_2_style}} · {{comp_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">The Gap</div><div class="em-insight-text">{{competitor_name}} is consistently running <strong>{{comp_top_format}}</strong> ads with a <strong>{{comp_top_hook}}</strong> approach. Search for them inside Studio to see their full ad library.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Open Competitor Report in Studio</a><p class="em-cta-note">Full ad library and creative intelligence inside.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v2.2 — Their Creative Formula</span><span class="email-angle">Week 2</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{competitor_name}} has a creative formula they keep going back to. Here's what it is.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Creative Intelligence · {{competitor_name}}</div></div></div><div class="em-header-badge">Competitor Update</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, behind {{competitor_name}}'s {{competitor_ad_count}} active ads is a repeatable creative formula.</p>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_1_hook}}</div><div class="em-comp-meta">{{comp_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_2_hook}}</div><div class="em-comp-meta">{{comp_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-sec-label">Their Repeating Pattern</div>
+                <table class="em-table"><thead><tr><th>Element</th><th>Their Approach</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">Visual Style</span></td><td><span class="val-neutral">{{comp_top_visual}}</span></td></tr>
+                  <tr><td><span class="td-name">Sequence Pattern</span></td><td><span class="val-neutral">{{comp_top_sequence}}</span></td></tr>
+                  <tr><td><span class="td-name">Hook Type</span></td><td><span class="val-neutral">{{comp_top_hook}}</span></td></tr>
+                  <tr><td><span class="td-name">Format</span></td><td><span class="val-neutral">{{comp_top_format}}</span></td></tr>
+                </tbody></table>
+                <div class="em-insight"><div class="em-insight-label">How to Counter</div><div class="em-insight-text">{{competitor_name}} is leaning on <strong>{{comp_top_visual}}</strong> visuals with a <strong>{{comp_top_sequence}}</strong> sequence. Search Studio and use AI Creative to generate your own version.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Generate a Counter Creative</a><p class="em-cta-note">Upload a product photo. Done in minutes.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v2.3 — Volume Trend</span><span class="email-angle">Week 3</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{competitor_name}} scaled from {{comp_last_week_count}} to {{competitor_ad_count}} ads this week.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Volume Trend · {{competitor_name}}</div></div></div><div class="em-header-badge">Competitor Update</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, {{competitor_name}}'s ad volume increased by {{comp_volume_change}} this week.</p>
+                <div class="em-sec-label">Week on Week Activity · {{competitor_name}}</div>
+                <table class="em-table"><thead><tr><th>Period</th><th>Ads Live</th><th>Change</th></tr></thead><tbody>
+                  <tr><td><span class="td-name">This Week</span></td><td><span class="val-lose">{{competitor_ad_count}}</span></td><td><span class="val-lose">↑ {{comp_volume_change}}</span></td></tr>
+                  <tr><td><span class="td-name">Last Week</span></td><td>{{comp_last_week_count}}</td><td>—</td></tr>
+                </tbody></table>
+                <div class="em-sec-label">What They're Scaling</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_1_hook}}</div><div class="em-comp-meta">{{comp_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-hook">{{comp_ad_2_hook}}</div><div class="em-comp-meta">{{comp_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">What It Signals</div><div class="em-insight-text">A jump from {{comp_last_week_count}} to {{competitor_ad_count}} ads often means a product launch or new audience push. Search Studio to monitor what formats they're doubling down on.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Track Their Full Ad History</a><p class="em-cta-note">Stay ahead of what your competitors are testing.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- STATE 3 -->
+<div class="page" id="page-s3">
+  <div class="state-header">
+    <div class="state-eyebrow">State 3 of 3</div>
+    <div class="state-title">Domain Mapped</div>
+    <div class="state-desc">Report data · Domain mapped brand · Category intelligence · Ad creative roundup</div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-label-row"><span class="mode-label dark">🌙 Dark Mode</span><div class="mode-rule"></div></div>
+    <div class="variants-sub-row">
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v3.1 — Brand Activity</span><span class="email-angle">Week 1</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{top_brand_in_category}} has {{top_brand_ad_count}} ads live this week. Here's their top creative.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Brand Intelligence · {{user_category}}</div></div></div><div class="em-header-badge">Domain Report</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here's what the most active brand in your category is running this week.</p>
+                <div class="em-brand-spotlight"><div class="em-brand-logo">{{top_brand_initial}}</div><div class="em-brand-info"><div class="em-brand-name">{{top_brand_in_category}}</div><div class="em-brand-meta">{{top_brand_category}} · Most active this week</div></div><div class="em-brand-stat"><div class="em-brand-count">{{top_brand_ad_count}}</div><div class="em-brand-count-label">Ads Live</div></div></div>
+                <div class="em-sec-label">Their Top Creatives</div>
+                <div class="em-thumb-row">
+                  <div class="em-thumb-item"><div class="em-thumb-img"><span class="em-thumb-icon">▶</span><span class="em-thumb-img-label">Ad creative</span><span class="em-thumb-format-badge">Video</span></div><div class="em-thumb-footer"><div class="em-thumb-hook">{{brand_ad_1_hook}}</div></div></div>
+                  <div class="em-thumb-item"><div class="em-thumb-img"><span class="em-thumb-icon">▶</span><span class="em-thumb-img-label">Ad creative</span><span class="em-thumb-format-badge">Image</span></div><div class="em-thumb-footer"><div class="em-thumb-hook">{{brand_ad_2_hook}}</div></div></div>
+                  <div class="em-thumb-item"><div class="em-thumb-img"><span class="em-thumb-icon">▶</span><span class="em-thumb-img-label">Ad creative</span><span class="em-thumb-format-badge">Video</span></div><div class="em-thumb-footer"><div class="em-thumb-hook">{{brand_ad_3_hook}}</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">What to Watch</div><div class="em-insight-text"><strong>{{top_brand_in_category}}</strong> is the most active brand in {{user_category}} this week with {{top_brand_ad_count}} live ads. Search them in Studio to see their complete creative history.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Open Brand Report in Studio</a><p class="em-cta-note">See their full creative library, ad formats, and hook patterns.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v3.2 — Category Competitors</span><span class="email-angle">Week 2</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{cat_brand_1}} and {{cat_brand_2}} both pushed ads live this week in {{user_category}}.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Category Intelligence · {{user_category}}</div></div></div><div class="em-header-badge">Category Report</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here's what the two most active brands in your category were running this week.</p>
+                <div class="em-sec-label">{{cat_brand_1}} · {{cat_brand_1_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-sec-label">{{cat_brand_2}} · {{cat_brand_2_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">Dig Deeper</div><div class="em-insight-text">Search {{cat_brand_1}} or {{cat_brand_2}} in Studio to see their complete ad history and creative intelligence.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Open Studio</a><p class="em-cta-note">Search any brand. Connect your account. Both free.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version">v3.3 — Fresh from Your Category</span><span class="email-angle">Week 3</span></div>
+        <div class="browser-chrome"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">Fresh ads from {{user_category}} this week — take a look.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">{{user_category}} · Fresh This Week</div></div></div><div class="em-header-badge">Category Roundup</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here are some of the latest ads that went live in {{user_category}} this week.</p>
+                <div class="em-sec-label">{{cat_brand_1}} · {{cat_brand_1_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-sec-label">{{cat_brand_2}} · {{cat_brand_2_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">Your Move</div><div class="em-insight-text">Search these brands inside Studio to see their full creative library — or connect your Meta account to benchmark your own ads against your category.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Explore Studio</a><p class="em-cta-note">Search competitors or connect your account — both free.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-label-row"><span class="mode-label light">☀️ Light Mode</span><div class="mode-rule"></div></div>
+    <div class="variants-sub-row">
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v3.1 — Brand Activity</span><span class="email-angle">Week 1</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{top_brand_in_category}} has {{top_brand_ad_count}} ads live this week. Here's their top creative.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Brand Intelligence · {{user_category}}</div></div></div><div class="em-header-badge">Domain Report</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here's what the most active brand in your category is running this week.</p>
+                <div class="em-brand-spotlight"><div class="em-brand-logo">{{top_brand_initial}}</div><div class="em-brand-info"><div class="em-brand-name">{{top_brand_in_category}}</div><div class="em-brand-meta">{{top_brand_category}} · Most active this week</div></div><div class="em-brand-stat"><div class="em-brand-count">{{top_brand_ad_count}}</div><div class="em-brand-count-label">Ads Live</div></div></div>
+                <div class="em-sec-label">Their Top Creatives</div>
+                <div class="em-thumb-row">
+                  <div class="em-thumb-item"><div class="em-thumb-img"><span class="em-thumb-icon">▶</span><span class="em-thumb-img-label">Ad creative</span><span class="em-thumb-format-badge">Video</span></div><div class="em-thumb-footer"><div class="em-thumb-hook">{{brand_ad_1_hook}}</div></div></div>
+                  <div class="em-thumb-item"><div class="em-thumb-img"><span class="em-thumb-icon">▶</span><span class="em-thumb-img-label">Ad creative</span><span class="em-thumb-format-badge">Image</span></div><div class="em-thumb-footer"><div class="em-thumb-hook">{{brand_ad_2_hook}}</div></div></div>
+                  <div class="em-thumb-item"><div class="em-thumb-img"><span class="em-thumb-icon">▶</span><span class="em-thumb-img-label">Ad creative</span><span class="em-thumb-format-badge">Video</span></div><div class="em-thumb-footer"><div class="em-thumb-hook">{{brand_ad_3_hook}}</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">What to Watch</div><div class="em-insight-text"><strong>{{top_brand_in_category}}</strong> is the most active brand in {{user_category}} with {{top_brand_ad_count}} live ads. Search them in Studio to see their complete creative history.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Open Brand Report in Studio</a><p class="em-cta-note">See their full creative library, ad formats, and hook patterns.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v3.2 — Category Competitors</span><span class="email-angle">Week 2</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">{{cat_brand_1}} and {{cat_brand_2}} both pushed ads live this week in {{user_category}}.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">Category Intelligence · {{user_category}}</div></div></div><div class="em-header-badge">Category Report</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here's what the two most active brands in your category were running this week.</p>
+                <div class="em-sec-label">{{cat_brand_1}} · {{cat_brand_1_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-sec-label">{{cat_brand_2}} · {{cat_brand_2_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">Dig Deeper</div><div class="em-insight-text">Search {{cat_brand_1}} or {{cat_brand_2}} in Studio to see their complete ad history and creative intelligence.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Open Studio</a><p class="em-cta-note">Search any brand. Connect your account. Both free.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="email-wrapper">
+        <div class="email-label-row"><span class="email-version light-ver">v3.3 — Fresh from Your Category</span><span class="email-angle">Week 3</span></div>
+        <div class="browser-chrome light"><div class="chrome-dot red"></div><div class="chrome-dot yellow"></div><div class="chrome-dot green"></div><div class="chrome-bar"><span class="chrome-url">mail.google.com · Shiprocket Ads Studio</span></div></div>
+        <div class="email-shell light">
+          <div class="gmail-frame">
+            <div class="gmail-subject-row"><div class="gmail-avatar">S</div><div class="gmail-meta"><div class="gmail-from">Shiprocket Ads Studio <span>&lt;studio@shiprocket.com&gt;</span></div><div class="gmail-to">to {{merchant_name}}</div></div><div class="gmail-time">7 days ago</div></div>
+            <div class="gmail-subject-line">Fresh ads from {{user_category}} this week — take a look.</div>
+            <div class="email-content">
+              <div class="em-header"><div class="em-logo-wrap"><div class="em-logo-dot">S</div><div><div class="em-logo-name">Shiprocket Ads Studio</div><div class="em-logo-ctx">{{user_category}} · Fresh This Week</div></div></div><div class="em-header-badge">Category Roundup</div></div>
+              <div class="em-body">
+                <p class="em-intro">Hi {{merchant_name}}, here are some of the latest ads that went live in {{user_category}} this week.</p>
+                <div class="em-sec-label">{{cat_brand_1}} · {{cat_brand_1_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Image</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_1_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-sec-label">{{cat_brand_2}} · {{cat_brand_2_ad_count}} ads</div>
+                <div class="em-comp-cards">
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_1_days}} days live</div></div></div>
+                  <div class="em-comp-card"><div class="em-comp-thumb">Ad creative<span class="em-comp-format">Video</span></div><div class="em-comp-info"><div class="em-comp-meta">{{cat_brand_2_ad_2_days}} days live</div></div></div>
+                </div>
+                <div class="em-insight"><div class="em-insight-label">Your Move</div><div class="em-insight-text">Search these brands inside Studio to see their full creative library — or connect your Meta account to benchmark your own ads against your category.</div></div>
+              </div>
+              <div class="em-cta-wrap"><a class="em-cta-btn" href="#">Explore Studio</a><p class="em-cta-note">Search competitors or connect your account — both free.</p></div>
+              <div class="em-divider"></div>
+              <div class="em-footer"><div class="em-footer-sig"><strong>Shiprocket Ads Team</strong><span>Growth ahead.</span></div><div class="em-footer-links">Unsubscribe · Manage preferences</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPage(state, tab) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + state).classList.add('active');
+    tab.classList.add('active');
+  }
+</script>
+</body>
+</html>
